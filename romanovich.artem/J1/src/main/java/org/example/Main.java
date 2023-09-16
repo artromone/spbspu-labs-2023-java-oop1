@@ -16,7 +16,7 @@ public class Main {
     }
   }
 
-  public static <ConsoleWriter> void processInput(String s) {
+  public static void processInput(String s) {
     try {
       processor.useStrategy(s);
     } catch (UnknownCommandException e) {
