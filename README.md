@@ -6,7 +6,8 @@ Laboratory works of 5130904/20004, 2023 SPBSTU group for the OOP Java study
 - Каждый студент размещает свои работы в каталоге со своим именем на английском языке, строчными буквами и разделив фамилию и имя точкой, например, `"lastname.firstname"`
 - Каждая работа должна находиться в каталоге, имя которого представляет собой объединение заглавной латинской буквы, обозначающей читаемый курс (`"J"` для JAVA OOP) и номера работы, например, `"lastname.firstname/J1"` для первой работы семестра
 - Работы могут быть написаны на любой версии Java
-- Запрещено совершать изменения в `master`-е. Когда работа принята на практике, просьба выполнить pull request в ветку master. Если кто-то хочет принимать pull request-ы, напишите пж мне в лс. ![image](https://github.com/artromone/spbspu-labs-2023-java-oop1/assets/117440530/093d001b-dbb1-4f75-93a9-4f42a70a68f6)
+- Запрещено совершать изменения в `master`-е ![image](https://github.com/artromone/spbspu-labs-2023-java-oop1/assets/117440530/f7f1a184-1948-42d7-8f1e-33b2aeccc0ac)
+- Когда работа принята на практике, просьба выполнить pull request в ветку master. Если кто-то хочет принимать pull request-ы, напишите пж мне в лс. Нужно назначить себя в PR и правильно его назвать ![image](https://github.com/artromone/spbspu-labs-2023-java-oop1/assets/117440530/093d001b-dbb1-4f75-93a9-4f42a70a68f6) ![image](https://github.com/artromone/spbspu-labs-2023-java-oop1/assets/117440530/52a4fb70-b3cc-4315-a12c-3bec02273832)
 - В разделе [Issues](https://github.com/artromone/spbspu-labs-2023-java-oop1/issues) предлагается обсуждать не относящуюся к лабам теорию или задавать практические вопросы по лабам. Указывайте соответствующий тег: `theory` или `practise`
 
 ## Про коммиты
