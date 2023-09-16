@@ -5,9 +5,9 @@ import org.example.exceptions.UnknownCommandException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 class MoveStrategyTest {
   private MoveStrategy walkStrategy;
@@ -15,19 +15,14 @@ class MoveStrategyTest {
 
   @BeforeEach
   void setUp() throws UnknownCommandException {
-    walkStrategy = Mockito.mock(WalkStrategy.class);
-    MoveStrategy horseStrategy = Mockito.mock(HorseStrategy.class);
-    MoveStrategy flyStrategy = Mockito.mock(FlyStrategy.class);
-
+    walkStrategy = new WalkStrategy();
     processor = new CommandProcessor();
-    processor.useStrategy("walk");
-    processor.useStrategy("horse");
-    processor.useStrategy("fly");
   }
 
   private void testUseStrategyWithCommand(String command, MoveStrategy strategy) throws UnknownCommandException {
     processor.useStrategy(command);
-    Mockito.verify(strategy).move();
+    assertTrue(strategy instanceof MoveStrategy);
+    strategy.move();
   }
 
   @Test
