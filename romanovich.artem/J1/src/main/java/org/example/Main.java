@@ -6,17 +6,21 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        HashMap<String, Integer> map = new HashMap<>();
-
-        map.put("walk", 1);
-        map.put("horse", 2);
-        map.put("fly", 3);
+        HashMap<String, Runnable> map = createCommandsMap();
 
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            Integer value = map.get(line);
-            System.out.println(value);
+            Runnable command = map.getOrDefault(line, Commands::errorCommand);
+            command.run();
         }
+    }
+
+    static HashMap<String, Runnable> createCommandsMap() {
+        HashMap<String, Runnable> map = new HashMap<>();
+        map.put("walk", Commands::walkCommand);
+        map.put("horse", Commands::horseCommand);
+        map.put("fly", Commands::flyCommand);
+        return map;
     }
 }
