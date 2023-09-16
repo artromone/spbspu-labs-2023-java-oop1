@@ -4,6 +4,7 @@ import org.example.strategies.FlyStrategy;
 import org.example.strategies.HorseStrategy;
 import org.example.strategies.MoveStrategy;
 import org.example.strategies.WalkStrategy;
+import org.example.exceptions.UnknownCommandException;
 
 import java.util.HashMap;
 
@@ -16,10 +17,11 @@ public class CommandProcessor {
     strategies.put("fly", new FlyStrategy());
   }
 
-  public void useStrategy(String command) {
+  public void useStrategy(String command) throws UnknownCommandException {
     MoveStrategy strategy = strategies.get(command);
-    if (strategy != null) {
-      strategy.move();
+    if (strategy == null) {
+      throw new UnknownCommandException("Unknown command: " + command);
     }
+    strategy.move();
   }
 }
