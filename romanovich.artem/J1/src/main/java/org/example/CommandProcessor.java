@@ -1,10 +1,10 @@
 package org.example;
 
+import org.example.exceptions.UnknownCommandException;
 import org.example.strategies.FlyStrategy;
 import org.example.strategies.HorseStrategy;
 import org.example.strategies.MoveStrategy;
 import org.example.strategies.WalkStrategy;
-import org.example.exceptions.UnknownCommandException;
 
 import java.util.HashMap;
 
