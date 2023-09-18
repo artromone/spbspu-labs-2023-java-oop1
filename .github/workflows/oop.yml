@@ -32,6 +32,7 @@ jobs:
         if: ${{ contains(steps.maven.outcome, 'failure') && contains(steps.gradle.outcome, 'failure') }}
         run: exit 1
 
+
   checkstyle:
     runs-on: ubuntu-latest
     steps:
