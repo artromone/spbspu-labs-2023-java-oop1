@@ -12,15 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check if changes are in the correct directory
+        working-directory: ${{ github.workspace }}/${{ github.head_ref }}
         run: |
-          changed_files=$(git diff --name-only ${{ github.base_ref }}..${{ github.head_ref }})
-
-          for file in $changed_files; do
-            if [[ ! "$file" =~ ^${{ github.head_ref }}/ ]]; then
-              echo "Changes outside of ${{ github.head_ref }} directory are not allowed."
-              exit 1
-            fi
-          done
+          if git diff --name-only ${{ github.base_ref }}..${{ github.head_ref }} | grep -v "^${{ github.head_ref }}/"; then
+            echo "Changes outside of ${{ github.head_ref }} directory are not allowed."
+            exit 1
+          fi
 
   build:
     permissions: write-all
