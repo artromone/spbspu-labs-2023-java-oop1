@@ -9,7 +9,11 @@ on:
 jobs:
 
   branch:
+    permissions: write-all
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./${{ github.event.pull_request.title }}
     steps:
       - name: Check if changes are in the correct directory
         working-directory: ${{ github.workspace }}/${{ github.head_ref }}
