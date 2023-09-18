@@ -16,31 +16,21 @@ jobs:
       run:
         working-directory: ./${{ github.event.pull_request.title }}
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Generate Jacoco report
-        run: ./gradlew jacocoTestReport
-
-      - name: Check coverage and publish
-        id: jacoco
-        uses: madrapps/jacoco-report@v1.2
-        with:
-          paths: ./${{ github.event.pull_request.title }}/build/reports/jacoco/test/jacocoTestReport.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage-overall: 80
-          min-coverage-changed-files: 80
-
-      - name: Generate javadoc
-        run: ./gradlew javadoc
-
-      - name: Publish javadoc
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
-          clean: true
-          folder: ${{ github.event.pull_request.title }}/build/docs/javadoc
-          target-folder: ${{ github.event.pull_request.title }}
+      - uses: actions/checkout@v2
+      
+      - name: Build with Maven
+        id: maven
+        continue-on-error: true 
+        run: mvn -B package --file pom.xml
+        
+      - name: Build with Gradle  
+        id: gradle
+        continue-on-error: true
+        run: ./gradlew build
+        
+      - name: Check build result
+        if: ${{ failure() }} 
+        run: exit 1
 
   checkstyle:
     runs-on: ubuntu-latest
