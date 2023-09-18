@@ -31,7 +31,7 @@ jobs:
         run: /home/runner/work/spbspu-labs-2023-java-oop1/spbspu-labs-2023-java-oop1/${{ github.head_ref }}/gradlew build
       
       - name: Check build result
-        if: ${{ contains(steps.*.outcome,'failure') }}
+        if: ${{ contains(steps.maven.outcome, 'failure') && contains(steps.gradle.outcome, 'failure') }}
         run: exit 1
 
   checkstyle:
