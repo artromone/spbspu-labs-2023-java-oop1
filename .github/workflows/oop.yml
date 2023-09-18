@@ -21,12 +21,14 @@ jobs:
       - name: Build with Maven
         id: maven
         continue-on-error: true 
-        run: mvn -B package --file pom.xml
+        working-directory: ./${{github.ref}}
+        run: mvn -B package --file ./${{github.ref}}/pom.xml
         
       - name: Build with Gradle  
         id: gradle
         continue-on-error: true
-        run: ./gradlew build
+        working-directory: ./${{github.ref}} 
+        run: ./${{github.ref}}/gradlew build
         
       - name: Check build result
         if: ${{ contains(steps.*.outcome,'failure') }}
