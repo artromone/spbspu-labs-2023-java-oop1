@@ -44,11 +44,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           checkstyle_config: '.github/google_checks.xml'
           reporter: 'github-pr-check'
-
-      - name: Check Checkstyle Status
-        run: |
-          checkstyle_errors=$(grep -Eo 'error:|ERROR' "${GITHUB_WORKSPACE}/checkstyle-result.txt" | wc -l)
-          if [ "${checkstyle_errors}" -gt 0 ]; then
-            echo "Checkstyle reported errors. Exiting the workflow."
-            exit 1
-          fi
+          fail_on_error: true
