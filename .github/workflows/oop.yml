@@ -8,21 +8,6 @@ on:
 
 jobs:
 
-  branch:
-    permissions: write-all
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./${{ github.event.pull_request.title }}
-    steps:
-      - name: Check if changes are in the correct directory
-        working-directory: ${{ github.workspace }}/${{ github.head_ref }}
-        run: |
-          if git diff --name-only ${{ github.base_ref }}..${{ github.head_ref }} | grep -v "^${{ github.head_ref }}/"; then
-            echo "Changes outside of ${{ github.head_ref }} directory are not allowed."
-            exit 1
-          fi
-
   build:
     permissions: write-all
     runs-on: ubuntu-latest
@@ -48,6 +33,17 @@ jobs:
         if: ${{ contains(steps.maven.outcome, 'failure') && contains(steps.gradle.outcome, 'failure') }}
         run: exit 1
 
+  branch:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if changes are in the correct directory
+        working-directory: ${{ github.workspace }}/${{ github.head_ref }}
+        run: |
+          if git diff --name-only ${{ github.base_ref }}..${{ github.head_ref }} | grep -v "^${{ github.head_ref }}/"; then
+            echo "Changes outside of ${{ github.head_ref }} directory are not allowed."
+            exit 1
+          fi
 
   checkstyle:
     runs-on: ubuntu-latest
