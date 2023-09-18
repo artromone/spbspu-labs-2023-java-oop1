@@ -18,10 +18,10 @@ class MoveStrategyTest {
     processor = new CommandProcessor();
   }
 
-  private void testUseStrategyWithCommand(String command, MoveStrategy strategy) throws UnknownCommandException {
+  private void testUseStrategyWithCommand(String command, MoveStrategy strategy1111111) throws UnknownCommandException {
     processor.useStrategy(command);
-    assertNotNull(strategy);
-    strategy.move();
+    assertNotNull(strategy1111111);
+    strategy1111111.move();
   }
 
   @Test
