@@ -21,15 +21,15 @@ jobs:
       - name: Build with Maven
         id: maven
         continue-on-error: true 
-        working-directory: ./${{ github.ref_name }}
-        run: mvn -B package --file ${{ github.ref_name }}/pom.xml
+        working-directory: /home/runner/work/spbspu-labs-2023-java-oop1/spbspu-labs-2023-java-oop1/${{ github.ref_name }}
+        run: mvn -B package --file /home/runner/work/spbspu-labs-2023-java-oop1/spbspu-labs-2023-java-oop1/${{ github.ref_name }}/pom.xml
         
       - name: Build with Gradle  
         id: gradle
         continue-on-error: true
-        working-directory: ./${{ github.ref_name }}
-        run: ${{ github.ref_name }}/gradlew build
-        
+        working-directory: /home/runner/work/spbspu-labs-2023-java-oop1/spbspu-labs-2023-java-oop1/${{ github.ref_name }}
+        run: /home/runner/work/spbspu-labs-2023-java-oop1/spbspu-labs-2023-java-oop1/${{ github.ref_name }}/gradlew build
+      
       - name: Check build result
         if: ${{ contains(steps.*.outcome,'failure') }}
         run: exit 1
