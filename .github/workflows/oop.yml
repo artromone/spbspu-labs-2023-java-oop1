@@ -17,15 +17,6 @@ jobs:
         working-directory: ./${{ github.event.pull_request.title }}
     steps:
       - uses: actions/checkout@v3
-      
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-    
-      - name: Execute Gradle build
-        run: ./gradlew build
 
       - name: Generate Jacoco report
         run: ./gradlew jacocoTestReport
