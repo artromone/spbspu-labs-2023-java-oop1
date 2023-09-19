@@ -35,16 +35,21 @@ jobs:
   branch:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Check branch directory
-        id: check-dir
+        id: check-branch
+        working-directory: ./${{ github.head_ref }} 
+        shell: bash
         run: |
           branch=${{ github.head_ref }}
+          
           changed_files=$(git diff --name-only HEAD^ HEAD)
-          echo "::set-output name=matches::true"
+          
+          echo "::set-output name=matches::true"  
           for file in $changed_files; do
-            if [[ ! $file =~ ^$branch/ ]]; then
+            if [[ ! $file =~ ^$branch/ ]]; then        
               echo "::set-output name=matches::false"
-              break
+              break     
             fi
           done
 
