@@ -32,23 +32,23 @@ jobs:
         if: ${{ contains(steps.maven.outcome, 'failure') && contains(steps.gradle.outcome, 'failure') }}
         run: exit 1
 
-  branch:
-    runs-on: ubuntu-latest
-    steps:
-      - id: files
-        continue-on-error: true
-        uses: jitterbit/get-changed-files@v1
+  # branch:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - id: files
+  #       continue-on-error: true
+  #       uses: jitterbit/get-changed-files@v1
 
-      - run: |
-          branch=${{ github.head_ref }}
+  #     - run: |
+  #         branch=${{ github.head_ref }}
           
-          echo "::set-output name=matches::true"  
-          for file in ${{ steps.files.outputs.all }}; do
-            if [[ ! $file =~ ^$branch/ ]]; then        
-              echo "::set-output name=matches::false"
-              break     
-            fi
-          done
+  #         echo "::set-output name=matches::true"  
+  #         for file in ${{ steps.files.outputs.all }}; do
+  #           if [[ ! $file =~ ^$branch/ ]]; then        
+  #             echo "::set-output name=matches::false"
+  #             break     
+  #           fi
+  #         done
 
   checkstyle:
     runs-on: ubuntu-latest
