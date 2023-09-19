@@ -43,7 +43,8 @@ jobs:
         run: |
           branch=${{ github.head_ref }}
           
-          changed_files=$(git diff --name-only $(git merge-base HEAD master) HEAD)
+          base_branch=${GITHUB_BASE_REF:-${GITHUB_DEFAULT_BRANCH}}
+          changed_files=$(git diff --name-only $(git merge-base HEAD $base_branch) HEAD)
           
           echo "::set-output name=matches::true"  
           for file in $changed_files; do
