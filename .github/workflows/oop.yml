@@ -35,18 +35,18 @@ jobs:
   branch:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Check branch directory
-        shell: bash
-        working-directory: ${{ github.workspace }} 
+        id: check-dir
         run: |
-          branch_name="${{ github.head_ref }}"
-          changes="$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^$')"
-          
-          if [[ "$changes" != *"/$branch_name/"* ]]; then
-            echo "Changes found outside of /$branch_name/ directory"
-            exit 1
-          fi
+          branch=${{ github.head_ref }}
+          changed_files=$(git diff --name-only HEAD^ HEAD)
+          echo "::set-output name=matches::true"
+          for file in $changed_files; do
+            if [[ ! $file =~ ^$branch/ ]]; then
+              echo "::set-output name=matches::false"
+              break
+            fi
+          done
 
   checkstyle:
     runs-on: ubuntu-latest
