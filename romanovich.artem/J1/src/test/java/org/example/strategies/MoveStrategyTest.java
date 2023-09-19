@@ -1,7 +1,7 @@
 package org.example.strategies;
 
 import org.example.CommandProcessor;
-import org.example.exceptions.UnknownCommandException;
+import org.example.exceptions.UnknownCommandException                                                                     ;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
