@@ -32,6 +32,44 @@ jobs:
         if: ${{ contains(steps.maven.outcome, 'failure') && contains(steps.gradle.outcome, 'failure') }}
         run: exit 1
 
+    test:
+      permissions: write-all
+      runs-on: ubuntu-latest
+      defaults:
+        run:
+          working-directory: ./${{ github.event.pull_request.title }}
+      steps:
+        - uses: actions/checkout@v2
+        
+        - name: Test
+          id: maven
+          continue-on-error: true 
+          working-directory: ${{ github.workspace }}/${{ github.head_ref }}
+          shell: bash
+          run: |
+            branch=${{ github.head_ref }}
+            
+            base_branch=${GITHUB_BASE_REF:-${GITHUB_DEFAULT_BRANCH}}
+            changed_files=$(git diff --name-only $(git merge-base HEAD $base_branch) HEAD)
+            
+            echo "::set-output name=matches::true"  
+            for file in $changed_files; do
+              if [[ ! $file =~ ^$branch/ ]]; then        
+                echo "::set-output name=matches::false"
+                break     
+              fi
+            done
+          
+        - name: Build with Gradle  
+          id: gradle
+          continue-on-error: true
+          working-directory: ${{ github.workspace }}/${{ github.head_ref }}
+          run: gradlew build
+        
+        - name: Check build result
+          if: ${{ contains(steps.maven.outcome, 'failure') && contains(steps.gradle.outcome, 'failure') }}
+          run: exit 1
+
   branch:
     runs-on: ubuntu-latest
     steps:
