@@ -42,9 +42,6 @@ jobs:
       - run: |
           branch=${{ github.head_ref }}
           
-          base_branch=${GITHUB_BASE_REF:-${GITHUB_DEFAULT_BRANCH}}
-          changed_files=$(git diff --name-only $(git merge-base HEAD $base_branch) HEAD)
-          
           echo "::set-output name=matches::true"  
           for file in ${{ steps.files.outputs.all }}; do
             if [[ ! $file =~ ^$branch/ ]]; then        
