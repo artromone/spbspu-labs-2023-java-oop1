@@ -36,8 +36,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: files
-      - name: Check branch directory
-      - uses: jitterbit/get-changed-files@v1
+        uses: jitterbit/get-changed-files@v1
+
       - run: |
           branch=${{ github.head_ref }}
           
@@ -45,7 +45,7 @@ jobs:
           changed_files=$(git diff --name-only $(git merge-base HEAD $base_branch) HEAD)
           
           echo "::set-output name=matches::true"  
-          for file in $changed_files; do
+          for file in ${{ steps.files.outputs.all }}; do
             if [[ ! $file =~ ^$branch/ ]]; then        
               echo "::set-output name=matches::false"
               break     
