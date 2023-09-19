@@ -33,15 +33,12 @@ jobs:
         run: exit 1
 
   branch:
-    permissions: write-all
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./${{ github.event.pull_request.title }}
     steps:
       - uses: actions/checkout@v2
       - name: Check branch directory
         shell: bash
+        working-directory: ${{ github.workspace }} 
         run: |
           branch_name="${{ github.head_ref }}"
           changes="$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^$')"
