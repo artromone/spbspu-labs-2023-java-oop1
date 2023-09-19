@@ -40,14 +40,16 @@ jobs:
         working-directory: ./${{ github.event.pull_request.title }}
     steps:
       - uses: actions/checkout@v2
-      - name: Check if changes are in the correct directory
-        working-directory: ${{ github.workspace }}/${{ github.head_ref }}
+      - name: Check branch directory
+        shell: bash
         run: |
-          if git diff --name-only origin/master..romanovich.artem/J1 | grep -v "^romanovich.artem/J1/"; then
-            echo "Changes outside of romanovich.artem/J1 directory are not allowed."
+          branch_name="${{ github.head_ref }}"
+          changes="$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^$')"
+          
+          if [[ "$changes" != *"/$branch_name/"* ]]; then
+            echo "Changes found outside of /$branch_name/ directory"
             exit 1
           fi
-
 
   checkstyle:
     runs-on: ubuntu-latest
