@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 public class CommandProcessor {
   private final HashMap<String, MoveStrategy> strategies = new HashMap<>();
+  private static int heroCount = 0;
 
   public CommandProcessor() {
     strategies.put("walk", new WalkStrategy());
@@ -17,11 +18,12 @@ public class CommandProcessor {
     strategies.put("fly", new FlyStrategy());
   }
 
-  public void useStrategy(String command) throws UnknownCommandException {
+  public void sendHero(String command) throws UnknownCommandException {
     MoveStrategy strategy = strategies.get(command);
     if (strategy == null) {
       throw new UnknownCommandException("Unknown command: " + command);
     }
-    strategy.move();
+    Hero hero = new Hero("Hero number " + ++heroCount, strategy);
+    hero.move();
   }
 }

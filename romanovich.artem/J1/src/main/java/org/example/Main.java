@@ -16,9 +16,9 @@ public class Main {
     }
   }
 
-  public static void processInput(String s) {
+  public static void processInput(String string) {
     try {
-      processor.useStrategy(s);
+      processor.sendHero(string);
     } catch (UnknownCommandException e) {
       System.out.println("Error occurred: " + e.getMessage());
     } catch (Exception e) {

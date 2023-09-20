@@ -18,7 +18,7 @@ class MoveStrategyTest {
   }
 
   private void testUseStrategyWithCommand(String command, MoveStrategy strategy) throws UnknownCommandException {
-    processor.useStrategy(command);
+    processor.sendHero(command);
     assertNotNull(strategy);
     strategy.move();
   }
@@ -47,6 +47,6 @@ class MoveStrategyTest {
   @Test
   @DisplayName("Test using 'nonexistent' command")
   void testUseStrategyWithInvalidCommand() {
-    assertThrows(UnknownCommandException.class, () -> processor.useStrategy("nonexistent"));
+    assertThrows(UnknownCommandException.class, () -> processor.sendHero("nonexistent"));
   }
 }
