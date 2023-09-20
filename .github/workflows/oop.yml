@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ "master" ]  
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./${{ github.event.pull_request.title }}
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Build with Maven
+        id: maven
+        continue-on-error: true 
+        working-directory: ${{ github.workspace }}/${{ github.head_ref }}
+        run: mvn -B package --file pom.xml
+        
+      - name: Build with Gradle  
+        id: gradle
+        continue-on-error: true
+        working-directory: ${{ github.workspace }}/${{ github.head_ref }}
+        run: gradlew build
+      
+      - name: Check build result
+        if: ${{ contains(steps.maven.outcome, 'failure') && contains(steps.gradle.outcome, 'failure') }}
+        run: exit 1
+
+  # branch:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - id: files
+  #       continue-on-error: true
+  #       uses: jitterbit/get-changed-files@v1
+
+  #     - run: |
+  #         branch=${{ github.head_ref }}
+          
+  #         echo "::set-output name=matches::true"  
+  #         for file in ${{ steps.files.outputs.all }}; do
+  #           if [[ ! $file =~ ^$branch/ ]]; then        
+  #             echo "::set-output name=matches::false"
+  #             break     
+  #           fi
+  #         done
+
+  checkstyle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run check style
+        uses: nikitasavinov/checkstyle-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          checkstyle_config: '.github/google_checks.xml'
+          reporter: 'github-pr-check'
+          # level: error
+          fail_on_error: true
