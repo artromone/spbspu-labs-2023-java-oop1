@@ -1,14 +1,24 @@
 package org.example;
 
 import org.example.exceptions.UnknownCommandException;
+import org.example.hero.HeroFactory;
+import org.example.hero.HeroFactoryImpl;
+import org.example.hero.HeroSender;
+import org.example.hero.HeroSenderImpl;
+import org.example.strategies.MoveStrategyFactory;
+import org.example.strategies.MoveStrategyFactoryImpl;
 
 import java.util.Scanner;
 
 public class Main {
 
-  private static final CommandProcessor processor = new CommandProcessor();
+  private static HeroSender heroSender;
 
   public static void main(String[] args) {
+
+    MoveStrategyFactory moveStrategyFactory = new MoveStrategyFactoryImpl();
+    HeroFactory heroFactory = new HeroFactoryImpl();
+    heroSender = new HeroSenderImpl(moveStrategyFactory, heroFactory);
 
     Scanner scanner = new Scanner(System.in);
     while (scanner.hasNextLine()) {
@@ -18,7 +28,7 @@ public class Main {
 
   public static void processInput(String string) {
     try {
-      processor.sendHero(string);
+      heroSender.sendHero(string);
     } catch (UnknownCommandException e) {
       System.out.println("Error occurred: " + e.getMessage());
     } catch (Exception e) {

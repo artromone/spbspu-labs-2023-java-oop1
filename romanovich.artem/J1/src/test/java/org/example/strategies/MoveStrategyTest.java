@@ -1,7 +1,10 @@
 package org.example.strategies;
 
-import org.example.CommandProcessor;
 import org.example.exceptions.UnknownCommandException;
+import org.example.hero.HeroFactory;
+import org.example.hero.HeroFactoryImpl;
+import org.example.hero.HeroSender;
+import org.example.hero.HeroSenderImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,15 +13,17 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MoveStrategyTest {
-  private CommandProcessor processor;
+  private HeroSender heroSender;
 
   @BeforeEach
   void setUp() {
-    processor = new CommandProcessor();
+    MoveStrategyFactory moveStrategyFactory = new MoveStrategyFactoryImpl();
+    HeroFactory heroFactory = new HeroFactoryImpl();
+    heroSender = new HeroSenderImpl(moveStrategyFactory, heroFactory);
   }
 
   private void testUseStrategyWithCommand(String command, MoveStrategy strategy) throws UnknownCommandException {
-    processor.sendHero(command);
+    heroSender.sendHero(command);
     assertNotNull(strategy);
     strategy.move();
   }
@@ -47,6 +52,6 @@ class MoveStrategyTest {
   @Test
   @DisplayName("Test using 'nonexistent' command")
   void testUseStrategyWithInvalidCommand() {
-    assertThrows(UnknownCommandException.class, () -> processor.sendHero("nonexistent"));
+    assertThrows(UnknownCommandException.class, () -> heroSender.sendHero("nonexistent"));
   }
 }
