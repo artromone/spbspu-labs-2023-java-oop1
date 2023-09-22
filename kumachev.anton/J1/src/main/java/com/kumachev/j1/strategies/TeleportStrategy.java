@@ -1,4 +1,4 @@
-package com.kumachev.J1.strategies;
+package com.kumachev.j1.strategies;
 
 public class TeleportStrategy implements MoveStrategy {
     @Override

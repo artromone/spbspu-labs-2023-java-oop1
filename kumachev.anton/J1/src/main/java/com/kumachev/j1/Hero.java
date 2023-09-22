@@ -1,6 +1,6 @@
-package com.kumachev.J1;
+package com.kumachev.j1;
 
-import com.kumachev.J1.strategies.MoveStrategy;
+import com.kumachev.j1.strategies.MoveStrategy;
 
 public class Hero {
     private final String name;

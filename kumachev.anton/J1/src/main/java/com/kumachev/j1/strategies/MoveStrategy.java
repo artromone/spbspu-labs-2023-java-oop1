@@ -1,4 +1,4 @@
-package com.kumachev.J1.strategies;
+package com.kumachev.j1.strategies;
 
 public interface MoveStrategy {
     void move();

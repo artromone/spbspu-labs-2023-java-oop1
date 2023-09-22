@@ -1,10 +1,10 @@
-package com.kumachev.J1.implementations;
+package com.kumachev.j1.implementations;
 
-import com.kumachev.J1.Hero;
-import com.kumachev.J1.exceptions.InvalidCommandException;
-import com.kumachev.J1.factories.HeroFactory;
-import com.kumachev.J1.factories.MoveStrategyFactory;
-import com.kumachev.J1.strategies.MoveStrategy;
+import com.kumachev.j1.Hero;
+import com.kumachev.j1.exceptions.InvalidCommandException;
+import com.kumachev.j1.factories.HeroFactory;
+import com.kumachev.j1.factories.MoveStrategyFactory;
+import com.kumachev.j1.strategies.MoveStrategy;
 
 public class HeroFactoryImpl implements HeroFactory {
     private final MoveStrategyFactory moveStrategyFactory;

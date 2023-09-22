@@ -1,9 +1,9 @@
-package com.kumachev.J1;
+package com.kumachev.j1;
 
-import com.kumachev.J1.exceptions.InvalidCommandException;
-import com.kumachev.J1.factories.HeroFactory;
-import com.kumachev.J1.implementations.HeroFactoryImpl;
-import com.kumachev.J1.implementations.MoveStrategyFactoryImpl;
+import com.kumachev.j1.exceptions.InvalidCommandException;
+import com.kumachev.j1.factories.HeroFactory;
+import com.kumachev.j1.implementations.HeroFactoryImpl;
+import com.kumachev.j1.implementations.MoveStrategyFactoryImpl;
 
 import java.util.Scanner;
 

@@ -1,8 +1,8 @@
-package com.kumachev.J1.implementations;
+package com.kumachev.j1.implementations;
 
-import com.kumachev.J1.exceptions.InvalidCommandException;
-import com.kumachev.J1.factories.MoveStrategyFactory;
-import com.kumachev.J1.strategies.*;
+import com.kumachev.j1.exceptions.InvalidCommandException;
+import com.kumachev.j1.factories.MoveStrategyFactory;
+import com.kumachev.j1.strategies.*;
 
 public class MoveStrategyFactoryImpl implements MoveStrategyFactory {
     @Override

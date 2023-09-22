@@ -1,4 +1,4 @@
-package com.kumachev.J1.exceptions;
+package com.kumachev.j1.exceptions;
 
 public class InvalidCommandException extends Exception {
 }
