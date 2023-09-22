@@ -20,7 +20,6 @@ public class Main {
             catch (InvalidCommandException e) {
                 System.err.println("Неверно введена команда");
             }
-
         }
     }
 }
