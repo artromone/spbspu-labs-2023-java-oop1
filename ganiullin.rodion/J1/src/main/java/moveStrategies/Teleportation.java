@@ -10,6 +10,6 @@ public class Teleportation implements MoveStrategy {
             throw new RuntimeException("destination is empty or null");
         }
         System.out.println(MAGIC_SOUND + ' ' + "Well, that was fast!");
-        System.out.println("You appeared in" + destination);
+        System.out.println("You appeared in " + destination);
     }
 }

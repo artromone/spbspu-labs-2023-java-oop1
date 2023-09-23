@@ -2,6 +2,8 @@ package org.example;
 
 import moveStrategies.*;
 
+import java.util.Scanner;
+
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
@@ -9,29 +11,26 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Hero hero = new Hero("Bob", new Walk());
-        hero.move(DESTINATION);
-        System.out.println();
+      //  Scanner input = new Scanner(System.in);
+        try (Scanner input = new Scanner(System.in)) {
 
-        hero.setMoveStrategy(new HorseRiding());
-        hero.move(DESTINATION);
-        System.out.println();
+            CommandHandler commandHandler = new CommandHandler();
 
-        hero.setMoveStrategy(new Fly());
-        hero.move(DESTINATION);
-        System.out.println();
+            Hero hero = new Hero("Freeman", new Walk());
 
-        hero.setMoveStrategy(new HorseRiding());
-        hero.move(DESTINATION);
-        System.out.println();
+            while (input.hasNext()) {
 
-        hero.setMoveStrategy(new FlyDragon());
-        for (int i = 0; i < 5; i++) {
-            hero.move(DESTINATION);
-            System.out.println();
+                try {
+                    hero.setMoveStrategy(commandHandler.getMoveStrategy(input.nextLine()));
+                    hero.move(DESTINATION);
+                } catch (Exception e) {
+                    System.out.println(e.getLocalizedMessage());
+                }
+                System.out.println();
+            }
         }
-
-        hero.setMoveStrategy(new Teleportation());
-        hero.move(DESTINATION);
+        catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
+        }
     }
 }
