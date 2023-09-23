@@ -26,7 +26,7 @@ jobs:
         id: gradle
         continue-on-error: true
         working-directory: ${{ github.workspace }}/${{ github.head_ref }}
-        run: gradlew build
+        run: ./gradlew build
       
       - name: Check build result
         if: ${{ contains(steps.maven.outcome, 'failure') && contains(steps.gradle.outcome, 'failure') }}
