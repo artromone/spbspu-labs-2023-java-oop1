@@ -1,14 +1,19 @@
 package com.kumachev.j1;
 
 import com.kumachev.j1.strategies.MoveStrategy;
+import com.kumachev.j1.strategies.WalkStrategy;
 
 public class Hero {
     private final String name;
-    private final MoveStrategy strategy;
+    private MoveStrategy strategy;
 
-    public Hero(String name, MoveStrategy moveStrategy) {
+    public Hero(String name) {
         this.name = name;
-        this.strategy = moveStrategy;
+        this.strategy = new WalkStrategy();
+    }
+
+    public void setStrategy(MoveStrategy strategy) {
+        this.strategy = strategy;
     }
 
     public void move() {

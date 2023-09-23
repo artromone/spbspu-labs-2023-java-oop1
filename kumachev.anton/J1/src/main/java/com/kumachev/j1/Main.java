@@ -1,24 +1,36 @@
 package com.kumachev.j1;
 
 import com.kumachev.j1.exceptions.InvalidCommandException;
-import com.kumachev.j1.factories.HeroFactory;
-import com.kumachev.j1.implementations.HeroFactoryImpl;
+import com.kumachev.j1.factories.MoveStrategyFactory;
 import com.kumachev.j1.implementations.MoveStrategyFactoryImpl;
+import com.kumachev.j1.strategies.MoveStrategy;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        HeroFactory heroFactory = new HeroFactoryImpl(new MoveStrategyFactoryImpl());
-        Scanner scanner = new Scanner(System.in);
+        MoveStrategyFactory moveStrategyFactory = new MoveStrategyFactoryImpl();
 
-        while (scanner.hasNextLine()) {
-            try {
-                Hero hero = heroFactory.createFromCmd(scanner.nextLine());
-                hero.move();
-            }
-            catch (InvalidCommandException e) {
-                System.err.println("Неверно введена команда");
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.print("Имя героя: ");
+            String name = scanner.nextLine();
+            Hero hero = new Hero(name);
+            System.out.print("Стратегия перемещения: ");
+
+            while (scanner.hasNextLine()) {
+                try {
+                    String line = scanner.nextLine();
+
+                    if (!line.isEmpty()) {
+                        MoveStrategy strategy = moveStrategyFactory.createStrategy(line);
+                        hero.setStrategy(strategy);
+                    }
+
+                    hero.move();
+                    System.out.print("Стратегия перемещения: ");
+                } catch (InvalidCommandException e) {
+                    System.err.println("Неверно введена стратегия");
+                }
             }
         }
     }
