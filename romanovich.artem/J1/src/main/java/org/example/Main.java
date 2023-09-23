@@ -20,9 +20,10 @@ public class Main {
     HeroFactory heroFactory = new HeroFactoryImpl();
     heroSender = new HeroSenderImpl(moveStrategyFactory, heroFactory);
 
-    Scanner scanner = new Scanner(System.in);
-    while (scanner.hasNextLine()) {
-      processInput(scanner.nextLine());
+    try (Scanner scanner = new Scanner(System.in); scanner) {
+      while (scanner.hasNextLine()) {
+        processInput(scanner.nextLine());
+      }
     }
   }
 
