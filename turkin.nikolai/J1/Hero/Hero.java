@@ -5,7 +5,7 @@ public class Hero {
     private MoveStrategy strategy_;
 
     public Hero() {
-        strategy_ = null;
+        this.strategy_ = null;
     }
 
     public void set(MoveStrategy strategy) {
