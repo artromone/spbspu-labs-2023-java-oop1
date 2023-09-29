@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-      //  Scanner input = new Scanner(System.in);
+        //  Scanner input = new Scanner(System.in);
         try (Scanner input = new Scanner(System.in)) {
 
             CommandHandler commandHandler = new CommandHandler();
@@ -28,8 +28,7 @@ public class Main {
                 }
                 System.out.println();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
     }
