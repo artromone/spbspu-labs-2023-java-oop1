@@ -7,6 +7,7 @@ public class MethodKeeper {
   public void publicMethodFirst() {
     System.out.println("Public method first: " + methodCallCount++);
   }
+  @CallNumber() // default = 1
   public void publicMethodSecond() {
     System.out.println("Public method second: " + methodCallCount++);
   }
