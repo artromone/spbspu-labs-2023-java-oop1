@@ -4,29 +4,29 @@ import com.kumachev.j2.annotations.MyAnnotation;
 
 public class MyAnnotatedClass {
     @MyAnnotation(count = 3)
-    private void annotatedPrivate() {
-        System.out.println("annotatedPrivate");
+    private void annotatedPrivate(Integer a, String b) {
+        System.out.println("annotatedPrivate " + a + " " + b);
     }
 
-    private void notAnnotatedPrivate() {
-        System.out.println("notAnnotatedPrivate");
+    private void notAnnotatedPrivate(Integer a, String b) {
+        System.out.println("annotatedPrivate " + a + " " + b);
     }
 
     @MyAnnotation(count = 1)
-    protected void annotatedProtected() {
-        System.out.println("annotatedProtected");
+    protected void annotatedProtected(Float c) {
+        System.out.println("annotatedProtected " + c);
     }
 
-    protected void notAnnotatedProtected() {
-        System.out.println("notAnnotatedProtected");
+    protected void notAnnotatedProtected(Float c) {
+        System.out.println("annotatedProtected " + c);
     }
 
     @MyAnnotation(count = 2)
-    public void annotatedPublic() {
-        System.out.println("annotatedPublic");
+    public void annotatedPublic(Double e) {
+        System.out.println("annotatedPublic " + e);
     }
 
-    public void notAnnotatedPublic() {
-        System.out.println("notAnnotatedPublic");
+    public void notAnnotatedPublic(Double e) {
+        System.out.println("annotatedPublic " + e);
     }
 }
