@@ -2,25 +2,25 @@ package Hero;
 import Hero.MoveStrategy.MoveStrategy;
 
 public class Hero {
-    private MoveStrategy strategy_;
+    private MoveStrategy strategy;
 
     public Hero() {
-        this.strategy_ = null;
+        this.strategy = null;
     }
 
     public void set(MoveStrategy strategy) {
-        strategy_ = strategy;
+        this.strategy = strategy;
     }
 
     public MoveStrategy get() {
-        return strategy_;
+        return this.strategy;
     }
 
     public void move() {
-        if (strategy_ == null) {
+        if (this.strategy == null) {
             System.out.println("No move strategy");
             return;
         }
-        strategy_.move();
+        this.strategy.move();
     }
 }

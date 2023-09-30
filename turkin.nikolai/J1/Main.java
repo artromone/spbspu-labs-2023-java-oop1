@@ -14,6 +14,7 @@ public class Main {
 
         Hero hero = new Hero();
         Scanner in = new Scanner(System.in);
+        
         while (in.hasNextLine()) {
             String state = in.nextLine();
             switch (state) {
