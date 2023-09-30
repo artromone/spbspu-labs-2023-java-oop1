@@ -3,6 +3,7 @@ package org.example;
 import static org.example.MethodKeeper.methodCallCount;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Parameter;
 
 public class MethodCaller {
   public void call() throws InvocationTargetException, IllegalAccessException {
@@ -23,13 +24,34 @@ public class MethodCaller {
         continue;
       }
 
-      int n = annotation.number();
-      System.out.println("Call times: " + n);
-      for (int i = 0; i < n; ++i) {
-        method.invoke(methodKeeper);
+      int annotationNumber = annotation.number();
+      System.out.println("Call times: " + annotationNumber);
+
+      for (int i = 0; i < annotationNumber; ++i) {
+        method.invoke(methodKeeper, fillParameters(method));
       }
       methodCallCount = 1;
     }
     System.out.println("-".repeat(34));
+  }
+
+  public Object[] fillParameters(java.lang.reflect.Method method) {
+    Parameter[] parameters = method.getParameters();
+    int numParams = method.getParameterCount();
+    Object[] args = new Object[numParams];
+
+    for (int i = 0; i < parameters.length; ++i) {
+      if (int.class == parameters[i].getType()) {
+        args[i] = 1;
+      }
+      if (double.class == parameters[i].getType()) {
+        args[i] = 1.0;
+      }
+      if (MyClass.class == parameters[i].getType()) {
+        args[i] = new MyClass();
+      }
+    }
+
+    return args;
   }
 }
