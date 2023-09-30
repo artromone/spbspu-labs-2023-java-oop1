@@ -3,6 +3,7 @@ package org.example;
 import static org.example.MethodKeeper.methodCallCount;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
 public class MethodCaller {
@@ -10,7 +11,7 @@ public class MethodCaller {
     MethodKeeper methodKeeper = new MethodKeeper();
     Class<? extends MethodKeeper> methodKeeperClass = methodKeeper.getClass();
 
-    for (java.lang.reflect.Method method : methodKeeperClass.getDeclaredMethods()) {
+    for (Method method : methodKeeperClass.getDeclaredMethods()) {
       CallNumber annotation = method.getAnnotation(CallNumber.class);
       method.setAccessible(true);
 
@@ -35,7 +36,7 @@ public class MethodCaller {
     System.out.println("-".repeat(34));
   }
 
-  public Object[] fillParameters(java.lang.reflect.Method method) {
+  public Object[] fillParameters(Method method) {
     Parameter[] parameters = method.getParameters();
     int numParams = method.getParameterCount();
     Object[] args = new Object[numParams];
