@@ -2,10 +2,12 @@ package org.example.segregate;
 
 import static org.example.Main.segregate;
 
+import org.example.animal.Animal;
 import org.example.animal.Carnivore;
 import org.example.animal.Chordate;
 import org.example.animal.Erinaceidae;
 import org.example.animal.Felidae;
+import org.example.animal.Lynx;
 import org.example.animal.Mammal;
 import org.example.animal.PallasCat;
 import org.example.animal_factories.AnimalFactory;
@@ -23,6 +25,36 @@ import java.util.List;
 import java.util.Map;
 
 class SegregateTest {
+
+  private void generateResult(List<? extends Animal> animals,
+                              Collection<? super Erinaceidae> erinaceidaes,
+                              Collection<? super PallasCat> pallasCats,
+                              Collection<? super Lynx> lynxes) {
+
+    Assertions.assertEquals(erinaceidaes.size(), countAnimalsOfType(animals, Erinaceidae.class));
+    Assertions.assertEquals(pallasCats.size(), countAnimalsOfType(animals, PallasCat.class));
+    Assertions.assertEquals(lynxes.size(), countAnimalsOfType(animals, Lynx.class));
+
+    for (Object erinaceidae : erinaceidaes) {
+      Assertions.assertNotNull(erinaceidae);
+    }
+    for (Object pallasCat : pallasCats) {
+      Assertions.assertNotNull(pallasCat);
+    }
+    for (Object lynx : lynxes) {
+      Assertions.assertNotNull(lynx);
+    }
+  }
+
+  private int countAnimalsOfType(List<? extends Animal> animals, Class<?> animalType) {
+    int count = 0;
+    for (Animal animal : animals) {
+      if (animalType.isInstance(animal)) {
+        count++;
+      }
+    }
+    return count;
+  }
 
   @Test
   @DisplayName("Test 'Млекопитающие, Ежовые, Кошачьи, Хищные'")
@@ -46,22 +78,9 @@ class SegregateTest {
     Collection<Erinaceidae> erinaceidaes = new ArrayList<>();
     Collection<Felidae> pallasCats = new ArrayList<>();
     Collection<Carnivore> lynxes = new ArrayList<>();
-
     segregate(animals, erinaceidaes, pallasCats, lynxes);
 
-    Assertions.assertEquals(3, erinaceidaes.size());
-    Assertions.assertEquals(2, pallasCats.size());
-    Assertions.assertEquals(1, lynxes.size());
-
-    for (Object erinaceidae : erinaceidaes) {
-      Assertions.assertNotNull(erinaceidae);
-    }
-    for (Object pallasCat : pallasCats) {
-      Assertions.assertNotNull(pallasCat);
-    }
-    for (Object lynx : lynxes) {
-      Assertions.assertNotNull(lynx);
-    }
+    generateResult(animals, erinaceidaes, pallasCats, lynxes);
   }
 
   @Test
@@ -85,20 +104,8 @@ class SegregateTest {
     Collection<Chordate> erinaceidaes = new ArrayList<>();
     Collection<PallasCat> pallasCats = new ArrayList<>();
     Collection<Felidae> lynxes = new ArrayList<>();
-
     segregate(animals, erinaceidaes, pallasCats, lynxes);
 
-    Assertions.assertEquals(2, pallasCats.size());
-    Assertions.assertEquals(1, lynxes.size());
-
-    for (Object erinaceidae : erinaceidaes) {
-      Assertions.assertNotNull(erinaceidae);
-    }
-    for (Object pallasCat : pallasCats) {
-      Assertions.assertNotNull(pallasCat);
-    }
-    for (Object lynx : lynxes) {
-      Assertions.assertNotNull(lynx);
-    }
+    generateResult(animals, erinaceidaes, pallasCats, lynxes);
   }
 }
