@@ -1,5 +1,5 @@
 package org.example.animal;
 
 // Хордовые
-public class Chordate {
+public class Chordate extends Animal {
 }
