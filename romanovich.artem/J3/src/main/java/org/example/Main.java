@@ -4,6 +4,7 @@ import org.example.animal.Animal;
 import org.example.animal.Carnivore;
 import org.example.animal.Erinaceidae;
 import org.example.animal.Eulipotyphla;
+import org.example.animal.Felidae;
 import org.example.animal.Lynx;
 import org.example.animal.PallasCat;
 import org.example.animal_factories.ErinaceidaeFactory;
@@ -25,26 +26,21 @@ public class Main {
     animals.add(new PallasCatFactory().createAnimal());   // 2
     animals.add(new LynxFactory().createAnimal());        // 1
 
-    List<Erinaceidae> erinaceidaes = new ArrayList<>();
-    List<PallasCat> pallasCats = new ArrayList<>();
-    List<Lynx> lynxes = new ArrayList<>();
+//    List<Erinaceidae> erinaceidaes = new ArrayList<>();
+//    List<Felidae> felidaes = new ArrayList<>();
+//    List<Carnivore> carnivores = new ArrayList<>();
+//
+//    segregate(animals, erinaceidaes, felidaes, carnivores);
 
-    segregate(animals, erinaceidaes, pallasCats, lynxes);
-
-    System.out.println(erinaceidaes.size());
-    System.out.println(pallasCats.size());
-    System.out.println(lynxes.size());
+//    System.out.println(erinaceidaes.size());
+//    System.out.println(felidaes.size());
+//    System.out.println(carnivores.size());
   }
 
-  public static <
-      T extends Eulipotyphla,
-      U extends Carnivore,
-      V extends Carnivore
-      >
-  void segregate(Collection<? extends Animal> src,
-                 Collection</*? super */T> erinaceidaes,
-                 Collection</*? super */U> pallasCats,
-                 Collection</*? super */V> lynxes) {
+  public static void segregate(Collection<? extends Animal> src,
+                               Collection<? super Erinaceidae> erinaceidaes,
+                               Collection<? super Carnivore> pallasCats,
+                               Collection<? super Carnivore> lynxes) {
 
     for (Animal animal : src) {
 
@@ -53,21 +49,15 @@ public class Main {
       }
 
       System.out.println(animal.getClass());
-      System.out.println(animal.);
 
-      if (animal instanceof Eulipotyphla) {
-        erinaceidaes.add((T) animal);
+      if (animal instanceof Erinaceidae) {
+        erinaceidaes.add((Erinaceidae) animal);
       }
-
-      if (animal instanceof Carnivore) {
-
-        if (animal instanceof PallasCat) {
-          pallasCats.add((U) animal);
-        }
-        if (animal instanceof Lynx) {
-          lynxes.add((V) animal);
-        }
-
+      if (animal instanceof PallasCat) {
+        pallasCats.add((PallasCat) animal);
+      }
+      if (animal instanceof Lynx) {
+        lynxes.add((Lynx) animal);
       }
     }
   }
