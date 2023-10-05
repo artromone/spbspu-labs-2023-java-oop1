@@ -26,6 +26,21 @@ import java.util.Map;
 
 class SegregateTest {
 
+  private <T extends Animal> List<T> createAnimals(Map<AnimalFactory, Integer> animalRequests) {
+    List<T> animals = new ArrayList<>();
+
+    for (Map.Entry<AnimalFactory, Integer> entry : animalRequests.entrySet()) {
+      AnimalFactory factory = entry.getKey();
+      Integer count = entry.getValue();
+
+      for (int j = 0; j < count; j++) {
+        animals.add((T) factory.createAnimal());
+      }
+    }
+
+    return animals;
+  }
+
   private void generateResult(List<? extends Animal> animals,
                               Collection<? super Erinaceidae> erinaceidaes,
                               Collection<? super PallasCat> pallasCats,
@@ -59,21 +74,12 @@ class SegregateTest {
   @Test
   @DisplayName("Test 'Млекопитающие, Ежовые, Кошачьи, Хищные'")
   public void testSegregateFirst() {
-    List<Mammal> animals = new ArrayList<>();
-
     Map<AnimalFactory, Integer> animalRequests = new HashMap<>();
     animalRequests.put(new EuropeanHedgehogFactory(), 3);
     animalRequests.put(new PallasCatFactory(), 2);
     animalRequests.put(new LynxFactory(), 1);
 
-    for (Map.Entry<AnimalFactory, Integer> entry : animalRequests.entrySet()) {
-      AnimalFactory factory = entry.getKey();
-      Integer count = entry.getValue();
-
-      for (int j = 0; j < count; j++) {
-        animals.add((Mammal) factory.createAnimal());
-      }
-    }
+    List<Mammal> animals = createAnimals(animalRequests);
 
     Collection<Erinaceidae> erinaceidaes = new ArrayList<>();
     Collection<Felidae> pallasCats = new ArrayList<>();
@@ -86,20 +92,10 @@ class SegregateTest {
   @Test
   @DisplayName("Test 'Хищные, Хордовые, Манулы, Кошачьи'")
   public void testSegregateSecond() {
-    List<Carnivore> animals = new ArrayList<>();
-
     Map<AnimalFactory, Integer> animalRequests = new HashMap<>();
     animalRequests.put(new PallasCatFactory(), 2);
     animalRequests.put(new LynxFactory(), 1);
-
-    for (Map.Entry<AnimalFactory, Integer> entry : animalRequests.entrySet()) {
-      AnimalFactory factory = entry.getKey();
-      Integer count = entry.getValue();
-
-      for (int j = 0; j < count; j++) {
-        animals.add((Carnivore) factory.createAnimal());
-      }
-    }
+    List<Mammal> animals = createAnimals(animalRequests);
 
     Collection<Chordate> erinaceidaes = new ArrayList<>();
     Collection<PallasCat> pallasCats = new ArrayList<>();
