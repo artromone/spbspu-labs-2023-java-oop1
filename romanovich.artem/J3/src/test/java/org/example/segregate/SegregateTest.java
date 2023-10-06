@@ -47,7 +47,7 @@ class SegregateTest {
     return animals;
   }
 
-  private void runTest(List<? extends Animal> animals,
+  private void runTest(Collection<? extends Animal> animals,
                        Collection<? super Erinaceidae> erinaceidaes,
                        Collection<? super PallasCat> pallasCats,
                        Collection<? super Lynx> lynxes) {
@@ -69,7 +69,7 @@ class SegregateTest {
     }
   }
 
-  private int countAnimalsOfType(List<? extends Animal> animals, Class<?> animalType) {
+  private int countAnimalsOfType(Collection<? extends Animal> animals, Class<?> animalType) {
     int count = 0;
     for (Animal animal : animals) {
       if (animalType.isInstance(animal)) {

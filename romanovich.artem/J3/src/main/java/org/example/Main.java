@@ -3,7 +3,6 @@ package org.example;
 import org.example.animal.Animal;
 import org.example.animal.Carnivore;
 import org.example.animal.Erinaceidae;
-import org.example.animal.Eulipotyphla;
 import org.example.animal.Lynx;
 import org.example.animal.PallasCat;
 import org.example.animalfactories.ErinaceidaeFactory;
@@ -35,14 +34,10 @@ public class Main {
     System.out.println(lynxes.size());
   }
 
-  public static <
-      T extends Eulipotyphla,
-      U extends Carnivore,
-      V extends Carnivore
-      > void segregate(Collection<? extends Animal> src,
-                       Collection<? super T> erinaceidaes,
-                       Collection<? super U> pallasCats,
-                       Collection<? super V> lynxes) {
+  public static void segregate(Collection<? extends Animal> src,
+                               Collection<? super Erinaceidae> erinaceidaes,
+                               Collection<? super PallasCat> pallasCats,
+                               Collection<? super Lynx> lynxes) {
 
     for (Animal animal : src) {
       if (animal == null) {
@@ -50,13 +45,13 @@ public class Main {
       }
 
       if (animal instanceof Erinaceidae) {
-        erinaceidaes.add((T) animal);
+        erinaceidaes.add((Erinaceidae) animal);
       }
       if (animal instanceof PallasCat) {
-        pallasCats.add((U) animal);
+        pallasCats.add((PallasCat) animal);
       }
       if (animal instanceof Lynx) {
-        lynxes.add((V) animal);
+        lynxes.add((Lynx) animal);
       }
     }
   }
