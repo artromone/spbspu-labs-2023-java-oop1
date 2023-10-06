@@ -1,4 +1,4 @@
-package org.example.animal_factories;
+package org.example.animalfactories;
 
 import org.example.animal.Lynx;
 

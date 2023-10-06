@@ -6,14 +6,15 @@ import org.example.animal.Animal;
 import org.example.animal.Carnivore;
 import org.example.animal.Chordate;
 import org.example.animal.Erinaceidae;
+import org.example.animal.Eulipotyphla;
 import org.example.animal.Felidae;
 import org.example.animal.Lynx;
 import org.example.animal.Mammal;
 import org.example.animal.PallasCat;
-import org.example.animal_factories.AnimalFactory;
-import org.example.animal_factories.EuropeanHedgehogFactory;
-import org.example.animal_factories.LynxFactory;
-import org.example.animal_factories.PallasCatFactory;
+import org.example.animalfactories.AnimalFactory;
+import org.example.animalfactories.EuropeanHedgehogFactory;
+import org.example.animalfactories.LynxFactory;
+import org.example.animalfactories.PallasCatFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,8 +27,13 @@ import java.util.Map;
 
 class SegregateTest {
 
-  private <T extends Animal> List<T> createAnimals(Map<AnimalFactory, Integer> animalRequests) {
+  private <T extends Animal> List<T> createAnimals() {
     List<T> animals = new ArrayList<>();
+
+    Map<AnimalFactory, Integer> animalRequests = new HashMap<>();
+    animalRequests.put(new EuropeanHedgehogFactory(), 3);
+    animalRequests.put(new PallasCatFactory(), 2);
+    animalRequests.put(new LynxFactory(), 1);
 
     for (Map.Entry<AnimalFactory, Integer> entry : animalRequests.entrySet()) {
       AnimalFactory factory = entry.getKey();
@@ -41,10 +47,12 @@ class SegregateTest {
     return animals;
   }
 
-  private void generateResult(List<? extends Animal> animals,
-                              Collection<? super Erinaceidae> erinaceidaes,
-                              Collection<? super PallasCat> pallasCats,
-                              Collection<? super Lynx> lynxes) {
+  private void runTest(List<? extends Animal> animals,
+                       Collection<? super Erinaceidae> erinaceidaes,
+                       Collection<? super PallasCat> pallasCats,
+                       Collection<? super Lynx> lynxes) {
+
+    segregate(animals, erinaceidaes, pallasCats, lynxes);
 
     Assertions.assertEquals(erinaceidaes.size(), countAnimalsOfType(animals, Erinaceidae.class));
     Assertions.assertEquals(pallasCats.size(), countAnimalsOfType(animals, PallasCat.class));
@@ -74,34 +82,33 @@ class SegregateTest {
   @Test
   @DisplayName("Test 'Млекопитающие, Ежовые, Кошачьи, Хищные'")
   public void testSegregateFirst() {
-    Map<AnimalFactory, Integer> animalRequests = new HashMap<>();
-    animalRequests.put(new EuropeanHedgehogFactory(), 3);
-    animalRequests.put(new PallasCatFactory(), 2);
-    animalRequests.put(new LynxFactory(), 1);
-
-    List<Mammal> animals = createAnimals(animalRequests);
-
     Collection<Erinaceidae> erinaceidaes = new ArrayList<>();
     Collection<Felidae> pallasCats = new ArrayList<>();
     Collection<Carnivore> lynxes = new ArrayList<>();
-    segregate(animals, erinaceidaes, pallasCats, lynxes);
 
-    generateResult(animals, erinaceidaes, pallasCats, lynxes);
+    List<Mammal> animals = createAnimals();
+    runTest(animals, erinaceidaes, pallasCats, lynxes);
   }
 
   @Test
   @DisplayName("Test 'Хищные, Хордовые, Манулы, Кошачьи'")
   public void testSegregateSecond() {
-    Map<AnimalFactory, Integer> animalRequests = new HashMap<>();
-    animalRequests.put(new PallasCatFactory(), 2);
-    animalRequests.put(new LynxFactory(), 1);
-    List<Mammal> animals = createAnimals(animalRequests);
-
     Collection<Chordate> erinaceidaes = new ArrayList<>();
     Collection<PallasCat> pallasCats = new ArrayList<>();
     Collection<Felidae> lynxes = new ArrayList<>();
-    segregate(animals, erinaceidaes, pallasCats, lynxes);
 
-    generateResult(animals, erinaceidaes, pallasCats, lynxes);
+    List<Carnivore> animals = createAnimals();
+    runTest(animals, erinaceidaes, pallasCats, lynxes);
+  }
+
+  @Test
+  @DisplayName("Test 'Ежовые, Насекомоядные, Хищные, Хищные'")
+  public void testSegregateThird() {
+    Collection<Eulipotyphla> erinaceidaes = new ArrayList<>();
+    Collection<Chordate> pallasCats = new ArrayList<>();
+    Collection<Chordate> lynxes = new ArrayList<>();
+
+    List<Erinaceidae> animals = createAnimals();
+    runTest(animals, erinaceidaes, pallasCats, lynxes);
   }
 }

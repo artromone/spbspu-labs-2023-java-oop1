@@ -6,9 +6,9 @@ import org.example.animal.Erinaceidae;
 import org.example.animal.Eulipotyphla;
 import org.example.animal.Lynx;
 import org.example.animal.PallasCat;
-import org.example.animal_factories.ErinaceidaeFactory;
-import org.example.animal_factories.LynxFactory;
-import org.example.animal_factories.PallasCatFactory;
+import org.example.animalfactories.ErinaceidaeFactory;
+import org.example.animalfactories.LynxFactory;
+import org.example.animalfactories.PallasCatFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
