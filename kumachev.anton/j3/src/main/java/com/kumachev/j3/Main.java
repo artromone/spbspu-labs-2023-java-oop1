@@ -8,7 +8,6 @@ import com.kumachev.j3.models.CommonHedgehog;
 import com.kumachev.j3.models.Lynx;
 import com.kumachev.j3.models.PallasCat;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Scanner;
@@ -27,7 +26,7 @@ public class Main {
                     String line = s.nextLine();
 
                     if (line.isEmpty()) {
-                        break;
+                        continue;
                     }
 
                     Chordate animal = factory.createAnimal(line);
@@ -41,7 +40,7 @@ public class Main {
         Segregator segregator = new Segregator();
         segregator.segregate(animals, coll1, coll2, coll3);
 
-        System.out.println("Ежи: " + coll1.size());
+        System.out.println("Ежи обыкновенные: " + coll1.size());
         System.out.println("Манулы: " + coll2.size());
         System.out.println("Рыси: " + coll3.size());
     }
