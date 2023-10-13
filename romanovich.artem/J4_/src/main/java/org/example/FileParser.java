@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-public class FileParser {
+public class FileParser implements AutoCloseable {
+
+  private BufferedReader reader;
+
   private Map<String, String> dictionary = new HashMap<>();
   private String delimiter;
 
@@ -17,25 +20,25 @@ public class FileParser {
     this.delimiter = delimiter;
   }
 
-  public Map<String, String> parseFile(String filename) {
-    try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+  public Map<String, String> loadTranslations(String filename) {
+    try {
+      reader = new BufferedReader(new FileReader(filename));
       String line;
       while ((line = reader.readLine()) != null) {
         processLine(line);
       }
-    } catch (IOException e) {
+    } catch (Exception e) {
       Logger.error(e.getMessage());
     }
     return dictionary;
   }
 
   private void processLine(String line) {
-    String[] parts = line.split(delimiter);
-    if (parts.length >= 2) {
-      String word = parts[0];
-      String translation = parts[1];
-      dictionary.put(word, translation);
+    ArrayList<String> parts = split(line);
+    if (parts.size() < 2) {
+      return;
     }
+    dictionary.put(parts.get(0), parts.get(1));
   }
 
   public String translate(String inputFileName) throws Exception {
@@ -53,11 +56,13 @@ public class FileParser {
   private String findTranslationImpl(String inputFileName) throws Exception {
     StringBuilder translation = new StringBuilder();
 
-    try (BufferedReader reader = new BufferedReader(new FileReader(inputFileName))) {
+    try {
+      reader = new BufferedReader(new FileReader(inputFileName));
       String line;
       while ((line = reader.readLine()) != null) {
-        StringTokenizer tokenizer = new StringTokenizer(line);
         List<String> words = new ArrayList<>();
+
+        StringTokenizer tokenizer = new StringTokenizer(line);
         while (tokenizer.hasMoreTokens()) {
           words.add(tokenizer.nextToken());
         }
@@ -90,5 +95,21 @@ public class FileParser {
       return dictionary.get(bestMatch);
     }
     return word;
+  }
+
+  private ArrayList<String> split(String line) {
+    StringTokenizer stringTkn = new StringTokenizer(line, delimiter);
+    ArrayList<String> arr = new ArrayList<String>(line.length());
+    while (stringTkn.hasMoreTokens()) {
+      arr.add(stringTkn.nextToken());
+    }
+    return arr;
+  }
+
+  @Override
+  public void close() throws IOException {
+    if (reader != null) {
+      reader.close();
+    }
   }
 }
