@@ -38,8 +38,5 @@ public class Main {
         System.out.println(carnivoraList);
         AnimalSegregator.segregate(carnivoraList, chordateList, manulList, felidaeList);
         AnimalSegregator.segregate(hedgehogList, eulipotyphlaList, carnivoraList1, carnivoraList);
-
-
-
     }
 }
