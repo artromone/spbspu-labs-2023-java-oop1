@@ -1,0 +1,15 @@
+plane | самолет
+axe | топор
+door | дверь
+laptop | ноутбук
+thread | поток
+dictionary | словарь
+cool out | остыть
+cool | остыть
+food | Еда
+how | как
+see | видеть
+from | с
+fast and furious | форсаж
+burning hot | очень жарко
+freezing cold | очень холодно

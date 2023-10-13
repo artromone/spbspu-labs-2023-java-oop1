@@ -20,8 +20,15 @@ public class TranslationDictionary {
 
     public TranslationDictionary(File file) throws FileReadException, FileNotFoundException, InvalidFileFormatException {
         checkFile(file);
-        dict = new HashMap<>();
+        this.dict = new HashMap<>();
         fillDictionary(file);
+    }
+
+    public boolean containsWord(String word) {
+        return dict.containsKey(word);
+    }
+    public String getTranslation(String word) {
+        return dict.get(word);
     }
 
     private void checkFile(File file) throws FileReadException, FileNotFoundException {
