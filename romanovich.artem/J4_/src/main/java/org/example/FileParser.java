@@ -20,7 +20,7 @@ public class FileParser implements AutoCloseable {
     this.delimiter = delimiter;
   }
 
-  public Map<String, String> loadTranslations(String filename) {
+  public void loadTranslations(String filename) {
     try {
       reader = new BufferedReader(new FileReader(filename));
       String line;
@@ -30,7 +30,6 @@ public class FileParser implements AutoCloseable {
     } catch (Exception e) {
       Logger.error(e.getMessage());
     }
-    return dictionary;
   }
 
   private void processLine(String line) {
@@ -38,19 +37,19 @@ public class FileParser implements AutoCloseable {
     if (parts.size() < 2) {
       return;
     }
-    dictionary.put(parts.get(0), parts.get(1));
+    dictionary.put(formatWord(parts.get(0)), formatTranslation(parts.get(1)));
   }
 
   public String translate(String inputFileName) throws Exception {
     return findTranslationImpl(inputFileName);
   }
 
-  private void formatWord(String word) {
-    word = word.trim().toLowerCase();
+  private String formatWord(String word) {
+    return word.trim().toLowerCase();
   }
 
-  private void formatTranslation(String translation) {
-    translation = translation.trim();
+  private String formatTranslation(String translation) {
+    return translation.trim();
   }
 
   private String findTranslationImpl(String inputFileName) throws Exception {
@@ -67,6 +66,8 @@ public class FileParser implements AutoCloseable {
           words.add(tokenizer.nextToken());
         }
 
+        Logger.debug("@rt1: words: " + words);
+
         for (String word : words) {
           translation.append(translateImpl(word.toLowerCase())).append(" ");
         }
@@ -80,6 +81,9 @@ public class FileParser implements AutoCloseable {
   }
 
   private String translateImpl(String word) {
+
+    Logger.debug("@rt1: word: " + word);
+
     if (dictionary.containsKey(word)) {
       return dictionary.get(word);
     }

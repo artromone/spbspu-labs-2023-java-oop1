@@ -1,7 +1,5 @@
 package org.example;
 
-import java.util.StringTokenizer;
-
 public class Main {
   public static void main(String[] args) {
 
@@ -16,7 +14,7 @@ public class Main {
     Logger.debug("@rt1: dict: " + dictFileName);
     Logger.debug("@rt1: input: " + inputFileName);
 
-    try (FileParser translator = new FileParser("\\|")) {
+    try (FileParser translator = new FileParser("|")) {
       translator.loadTranslations(dictFileName);
 
       String translationResult = translator.translate(inputFileName);
