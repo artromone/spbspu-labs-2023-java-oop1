@@ -1,20 +1,21 @@
 package org.example;
 
+import org.example.exceptions.InvalidFileFormatException;
+
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
 public class FileParser implements AutoCloseable {
 
+  private final Map<String, String> dictionary = new HashMap<>();
+  private final String delimiter;
   private BufferedReader reader;
-
-  private Map<String, String> dictionary = new HashMap<>();
-  private String delimiter;
 
   public FileParser(String delimiter) {
     this.delimiter = delimiter;
@@ -25,22 +26,25 @@ public class FileParser implements AutoCloseable {
       reader = new BufferedReader(new FileReader(filename));
       String line;
       while ((line = reader.readLine()) != null) {
+        Logger.debug("@rt1: line: " + line);
         processLine(line);
       }
-    } catch (Exception e) {
+    } catch (FileNotFoundException | InvalidFileFormatException e) {
       Logger.error(e.getMessage());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 
-  private void processLine(String line) {
+  private void processLine(String line) throws InvalidFileFormatException {
     ArrayList<String> parts = split(line);
     if (parts.size() < 2) {
-      return;
+      throw new InvalidFileFormatException("Format is \"<word> | <translation>\"");
     }
     dictionary.put(formatWord(parts.get(0)), formatTranslation(parts.get(1)));
   }
 
-  public String translate(String inputFileName) throws Exception {
+  public String translate(String inputFileName) throws FileNotFoundException, InvalidFileFormatException {
     return findTranslationImpl(inputFileName);
   }
 
@@ -52,38 +56,30 @@ public class FileParser implements AutoCloseable {
     return translation.trim();
   }
 
-  private String findTranslationImpl(String inputFileName) throws Exception {
+  private String findTranslationImpl(String inputFileName) throws FileNotFoundException, InvalidFileFormatException {
     StringBuilder translation = new StringBuilder();
 
     try {
       reader = new BufferedReader(new FileReader(inputFileName));
-      String line;
-      while ((line = reader.readLine()) != null) {
-        List<String> words = new ArrayList<>();
-
-        StringTokenizer tokenizer = new StringTokenizer(line);
-        while (tokenizer.hasMoreTokens()) {
-          words.add(tokenizer.nextToken());
-        }
-
-        Logger.debug("@rt1: words: " + words);
-
-        for (String word : words) {
-          translation.append(translateImpl(word.toLowerCase())).append(" ");
-        }
-
-        translation.append("\n");
+      String inputLine;
+      while ((inputLine = reader.readLine()) != null) {
+        Logger.debug("@rt1: words: " + inputLine);
+        translation
+            .append(translateImpl(inputLine.toLowerCase()))
+            .append(" ")
+            .append("\n");
       }
-    } catch (Exception e) {
-      throw new Exception("Input file not found: " + inputFileName);
+    } catch (FileNotFoundException e) {
+      throw new FileNotFoundException("Input file not found: " + inputFileName);
+    } catch (InvalidFileFormatException e) {
+      throw new InvalidFileFormatException("Input file not found: " + inputFileName);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
     return translation.toString();
   }
 
   private String translateImpl(String word) {
-
-    Logger.debug("@rt1: word: " + word);
-
     if (dictionary.containsKey(word)) {
       return dictionary.get(word);
     }
@@ -98,12 +94,13 @@ public class FileParser implements AutoCloseable {
     if (!bestMatch.isEmpty()) {
       return dictionary.get(bestMatch);
     }
-    return word;
+    Logger.error(ErrorMessages.Translation.WORD_NOT_FOUND + ": " + word);
+    return ErrorMessages.Translation.WORD_NOT_FOUND + ": " + word;
   }
 
   private ArrayList<String> split(String line) {
     StringTokenizer stringTkn = new StringTokenizer(line, delimiter);
-    ArrayList<String> arr = new ArrayList<String>(line.length());
+    ArrayList<String> arr = new ArrayList<>(line.length());
     while (stringTkn.hasMoreTokens()) {
       arr.add(stringTkn.nextToken());
     }
