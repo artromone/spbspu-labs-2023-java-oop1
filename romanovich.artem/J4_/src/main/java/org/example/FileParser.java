@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -63,11 +64,18 @@ public class FileParser implements AutoCloseable {
       reader = new BufferedReader(new FileReader(inputFileName));
       String inputLine;
       while ((inputLine = reader.readLine()) != null) {
+        StringTokenizer tokenizer = new StringTokenizer(inputLine);
+        List<String> words = new ArrayList<>();
+        while (tokenizer.hasMoreTokens()) {
+          words.add(tokenizer.nextToken());
+        }
+
         Logger.debug("@rt1: words: " + inputLine);
-        translation
-            .append(translateImpl(inputLine.toLowerCase()))
-            .append(" ")
-            .append("\n");
+
+        for (String word : words) {
+          translation.append(translateImpl(word.toLowerCase())).append(" ");
+        }
+        Logger.debug("@rt1: words: " + inputLine);
       }
     } catch (FileNotFoundException e) {
       throw new FileNotFoundException("Input file not found: " + inputFileName);
@@ -95,7 +103,7 @@ public class FileParser implements AutoCloseable {
       return dictionary.get(bestMatch);
     }
     Logger.error(ErrorMessages.Translation.WORD_NOT_FOUND + ": " + word);
-    return ErrorMessages.Translation.WORD_NOT_FOUND + ": " + word;
+    return word;
   }
 
   private ArrayList<String> split(String line) {
