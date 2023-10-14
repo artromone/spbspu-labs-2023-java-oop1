@@ -30,8 +30,8 @@ public class Translator {
                 newWord.append(" ");
                 newWord.append(wordsToTranslate.get(j));
                 if(dictionary.containsWord(newWord.toString())){
-                    phraseToTranslate = newWord;
-                    wordsTranslated++;
+                    phraseToTranslate = new StringBuilder(newWord);
+                    wordsTranslated = j;
                 }
             }
             String res = phraseToTranslate.toString();
