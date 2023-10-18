@@ -7,15 +7,23 @@ import java.util.List;
 
 public class Main {
   public static void main(String[] args) throws InvocationTargetException, IllegalAccessException {
-    List<Integer> numbers = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    Class<?> clazz = Caller.class;
+    Method[] methods = clazz.getDeclaredMethods();
 
-    Class<?> clazz = Methods.class;
-    for (Method method : clazz.getDeclaredMethods()) {
+    int n = getTheLongestMethodName(methods);
+
+    for (Method method : methods) {
+      System.out.print(String.format("%-" + n + "s", method.getName()) + " | ");
       method.setAccessible(true);
-      Object result = method.invoke(null, numbers);
-
-      System.out.println(method.getName());
-      System.out.println(result + "\n");
+      method.invoke(null);
     }
+  }
+
+  private static int getTheLongestMethodName(Method[] methods) {
+    int longestMethodSize = 0;
+    for (Method method : methods) {
+      longestMethodSize = Math.max(longestMethodSize, method.getName().length());
+    }
+    return longestMethodSize;
   }
 }
