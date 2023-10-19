@@ -7,6 +7,15 @@ public class TranslatorImpl implements Translator {
     private final Dictionary<String, String> dictionary;
     private int maxPhraseLength;
 
+    private static final HashSet<Character> punctiation = new HashSet<>() {{
+        add('.');
+        add(',');
+        add(':');
+        add(';');
+        add('?');
+        add('!');
+    }};
+
     public TranslatorImpl(ArrayList<WordPair> dictItems) {
         dictionary = new Hashtable<>(dictItems.size());
         maxPhraseLength = 0;
@@ -21,7 +30,18 @@ public class TranslatorImpl implements Translator {
     }
 
     public String translateText(String text) {
-        String[] words = text.split("\\W");
+        String[] words = Arrays.stream(text.toLowerCase().split("\\s")).filter(s -> !s.isEmpty())
+                .mapMulti((word, consumer) -> {
+                    Character ch = word.charAt(word.length() - 1);
+
+                    if (punctiation.contains(ch)) {
+                        consumer.accept(word.substring(0, word.length() - 1));
+                        consumer.accept(ch.toString());
+                    } else {
+                        consumer.accept(word);
+                    }
+                })
+                .toArray(String[]::new);
         StringBuilder resultBuilder = new StringBuilder();
         int index = 0;
 
@@ -41,13 +61,13 @@ public class TranslatorImpl implements Translator {
 
     private TranslationResult translatePhrase(String[] words, int index) {
         int remainingWords = words.length - index - 1;
-        int takeWords = Math.max(remainingWords, maxPhraseLength);
+        int takeWords = Math.min(remainingWords, maxPhraseLength);
         List<String> phraseWords = Arrays.stream(words).skip(index).limit(takeWords).collect(Collectors.toList());
 
         for (int i = takeWords; i > 0; --i) {
             String phrase = String.join(" ", phraseWords);
             String translation = dictionary.get(phrase);
-            phraseWords.remove(i);
+            phraseWords.remove(i - 1);
 
             if (translation != null) {
                 return new TranslationResult(translation, index + i);
