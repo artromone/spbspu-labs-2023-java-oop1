@@ -48,7 +48,7 @@ public class TranslatorImpl implements Translator {
         while (index < words.length) {
             TranslationResult result = translatePhrase(words, index);
 
-            if (index > 0) {
+            if (index > 0 && !punctiation.contains(result.phrase.charAt(0))) {
                 resultBuilder.append(' ');
             }
 

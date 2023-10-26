@@ -11,7 +11,6 @@ car|машина
 house|дом
 table|стол
 pen|ручка
-tree|дерево
 computer|компьютер
 chair|стул
 milk|молоко
@@ -21,7 +20,6 @@ glass|стакан
 bed|кровать
 bottle|бутылка
 window|окно
-chair|кресло
 shirt|рубашка
 shoes|обувь
 hat|шапка
@@ -84,7 +82,6 @@ forest|лес
 desert|пустыня
 city|город
 country|страна
-beach|пляж
 park|парк
 museum|музей
 library|библиотека
@@ -99,7 +96,6 @@ market|рынок
 airport|аэропорт
 train station|вокзал
 bus stop|автобусная остановка
-school|школа
 university|университет
 hospital|больница
 watch out for|берегись
