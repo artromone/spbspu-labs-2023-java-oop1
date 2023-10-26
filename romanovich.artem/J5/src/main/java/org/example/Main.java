@@ -3,20 +3,32 @@ package org.example;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Comparator;
 
 public class Main {
-  public static void main(String[] args) throws InvocationTargetException, IllegalAccessException {
-    Class<?> clazz = Caller.class;
-    Method[] methods = clazz.getDeclaredMethods();
+  public static void main(String[] args) /*throws InvocationTargetException, IllegalAccessException */ {
+    Class<?> cls = Caller.class;
+    Method[] methods = cls.getDeclaredMethods();
 
     int n = getTheLongestMethodName(methods);
 
-    for (Method method : methods) {
-      System.out.print(String.format("%-" + n + "s", method.getName()) + " | ");
-      method.setAccessible(true);
-      method.invoke(null);
-    }
+    Arrays.stream(methods)
+        .sorted(Comparator.comparingInt(method -> /*-*/method.getName().length()))//.reversed()
+        .forEach(method -> {
+          System.out.print(String.format("%-" + n + "s", method.getName()) + " | ");
+          method.setAccessible(true);
+          try {
+            method.invoke(null);
+          } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+          }
+        });
+
+//    for (Method method : methods) {
+//      System.out.print(String.format("%-" + n + "s", method.getName()) + " | ");
+//      method.setAccessible(true);
+//      method.invoke(null);
+//    }
   }
 
   private static int getTheLongestMethodName(Method[] methods) {

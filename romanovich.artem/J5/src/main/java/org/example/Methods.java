@@ -1,7 +1,9 @@
 package org.example;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Methods {
@@ -30,5 +32,32 @@ public class Methods {
         .filter(s -> s.startsWith(String.valueOf(letter)))
         .sorted(String.CASE_INSENSITIVE_ORDER)
         .collect(Collectors.toList());
+  }
+
+  public static <T> T getLast(List<T> list) {
+    return list.stream()
+        .reduce((first, second) -> second)
+        .orElseThrow(IllegalArgumentException::new);
+  }
+
+  public static int getEvenSum(int[] numbers) {
+    return Arrays.stream(numbers)
+        .filter(n -> n % 2 == 0)
+        .sum();
+  }
+
+  public static Map<Character, String> toMap(List<String> strings) {
+    return strings.stream()
+        .filter(s -> !s.isEmpty())
+        .collect(Collectors.toMap(
+            s -> s.charAt(0),
+            s -> {
+//          if (s.length() > 1) {
+              return s.substring(1);
+//          } else {
+//            throw new IllegalArgumentException("String length < 2");
+//          }
+            }
+        ));
   }
 }
