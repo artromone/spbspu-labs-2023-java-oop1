@@ -6,6 +6,10 @@ public class Main {
 
     public static void main(String[] args) {
         MyAnnotatedClass c = new MyAnnotatedClass();
-        MethodCaller.callAnnotatedMethods(c);
+
+        MethodCaller.callMethod(c, "annotatedPrivate", 1, "str");
+        MethodCaller.callMethod(c, "notAnnotatedPrivate", 1, "str");
+        MethodCaller.callMethod(c, "annotatedProtected", 1, "str");
+        MethodCaller.callMethod(c, "annotatedProtected", 1.0F);
     }
 }
