@@ -1,10 +1,9 @@
 package com.kumachev.j5.stream;
 
 import org.junit.jupiter.api.Test;
-
 import java.util.Arrays;
-import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;

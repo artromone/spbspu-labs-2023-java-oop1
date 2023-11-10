@@ -1,9 +1,8 @@
 package com.kumachev.j5.stream;
 
-import org.javatuples.Pair;
-
-import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.Map;
+import org.javatuples.Pair;
 import java.util.stream.Stream;
 
 public class StreamMethods {
